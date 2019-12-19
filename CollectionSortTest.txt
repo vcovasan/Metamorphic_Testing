@@ -1,0 +1,205 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class CollectionSortTest {
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static final String BLANK_STRING = " ";
+	private static final String QUOTE_STRING = "\"";
+	/*
+	 * Helper Method to generate random alpha numeric string of a certain size
+	 * */
+	
+	public static String randomAlphaNumeric(int count) {
+	StringBuilder builder = new StringBuilder();
+	while (count-- != 0) {
+	int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+	builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+	}
+	return builder.toString();
+	}
+	public static String randomAlphaNumericWithBlank(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	
+	public static String randomAlphaNumericWithBlankAndQuotes(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING).concat(QUOTE_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters, 
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * therefore the function remains injective 
+	 * CHOICES USED: 1,2
+	 * */
+	@Test
+	void testSortForAlphanumeric() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		String alphaNum2= randomAlphaNumeric(3);
+		String alphaNum3= randomAlphaNumeric(7);
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(alphaNum3);
+		Collections.sort(list);
+		assertEquals(3, list.size());
+	}
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters with blanks, 
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * CHOICES USED: 1,2,5
+	 * */
+	@Test
+	void testSortForAlphanumericWithBlank() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		String alphaNum3= randomAlphaNumericWithBlank(7);
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(alphaNum3);
+		Collections.sort(list);
+		assertEquals(3, list.size());
+	}
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters with blanks and single quotes 
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * CHOICES USED: 1,2,3,5
+	 * */
+	@Test
+	void testSortForAlphanumericWithBlankAndQuotes() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(alphaNum3);
+		Collections.sort(list);
+		assertEquals(3, list.size());
+	}
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters 
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * CHOICES USED: 1,2
+	 * */
+	@Test
+	void testSortForAlphanumerAfterShuffling() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyOfList = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		String alphaNum2= randomAlphaNumeric(3);
+		String alphaNum3= randomAlphaNumeric(7);
+		
+		list.add(alphaNum1);
+		copyOfList.add(alphaNum1);
+		list.add(alphaNum2);
+		copyOfList.add(alphaNum2);
+		list.add(alphaNum3);
+		copyOfList.add(alphaNum3);
+		
+		//sorting the list 1
+		Collections.sort(list);
+		
+		//Shuffle the original list
+		Collections.shuffle(copyOfList);
+		
+		//sorting the original list
+		Collections.sort(copyOfList);
+		
+		assertEquals(copyOfList, list);
+	}
+	
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters with blanks
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * CHOICES USED: 1,2,5
+	 * */
+	@Test
+	void testSortForAlphanumerWithBlanksAfterShuffling() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyOfList = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		String alphaNum3= randomAlphaNumericWithBlank(7);
+		
+		list.add(alphaNum1);
+		copyOfList.add(alphaNum1);
+		list.add(alphaNum2);
+		copyOfList.add(alphaNum2);
+		list.add(alphaNum3);
+		copyOfList.add(alphaNum3);
+		
+		//sorting the list 1
+		Collections.sort(list);
+		
+		//Shuffle the original list
+		Collections.shuffle(copyOfList);
+		
+		//sorting the original list
+		Collections.sort(copyOfList);
+		
+		assertEquals(copyOfList, list);
+	}
+	
+	/**
+	 * 
+	 * The below method will test that For a list of alphanumeric characters with blank and quotes
+	 * the number of elements in the list before and after sorting, they should be the same
+	 * CHOICES USED: 1,2,3,5
+	 * */
+	@Test
+	void testSortForAlphanumerAfterShufflingWithBlankAndQuotes() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyOfList = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		
+		list.add(alphaNum1);
+		copyOfList.add(alphaNum1);
+		list.add(alphaNum2);
+		copyOfList.add(alphaNum2);
+		list.add(alphaNum3);
+		copyOfList.add(alphaNum3);
+		
+		//sorting the list 1
+		Collections.sort(list);
+		
+		//Shuffle the original list
+		Collections.shuffle(copyOfList);
+		
+		//sorting the original list
+		Collections.sort(copyOfList);
+		
+		assertEquals(copyOfList, list);
+	}
+	
+		
+
+
+}

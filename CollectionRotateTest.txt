@@ -1,0 +1,280 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+class CollectionRotateTest {
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static final String BLANK_STRING = " ";
+	private static final String QUOTE_STRING = "\"";
+	
+	/*
+	 * Helper Method to generate random alpha numeric string of a certain size
+	 * */
+	
+	public static String randomAlphaNumeric(int count) {
+	StringBuilder builder = new StringBuilder();
+	while (count-- != 0) {
+	int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+	builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+	}
+	return builder.toString();
+	}
+	
+	public static String randomAlphaNumericWithBlank(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	
+	public static String randomAlphaNumericWithBlankAndQuotes(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING).concat(QUOTE_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	/**
+	 * This below method tests Collection.rotate for list of alphanumeric string values
+	 * with a length of the list
+	 * 
+	 * This will rotate the list in anti-clockwise direction
+	 * 
+	 * Since we are rotating for length of the string, it will make the list remain same.
+	 * CHOICES USED: 1,2,10,12
+	 * */
+	
+	
+	@Test
+	void testRotateAlphaNumeric() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		String alphaNum2= randomAlphaNumeric(3);
+		String alphaNum3= randomAlphaNumeric(7);
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(alphaNum3);
+		Collections.rotate(list, list.size());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(alphaNum3, list.get(2));
+	}
+
+
+	/**
+	 * This below method tests Collection.rotate for list of alphanumeric string values
+	 * with a length of the list
+	 * 
+	 * The list also contains blank values
+	 * 
+	 * This will rotate the list in anti-clockwise direction
+	 * 
+	 * Since we are rotating for length of the string, it will make the list remain same.
+         * CHOICES USED: 1,2, 5 ,10,12
+	 * */
+	
+	
+	@Test
+	void testRotateAlphaNumericWithBlanks() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		String alphaNum3= randomAlphaNumericWithBlank(7);
+		String blank_string = " ";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		Collections.rotate(list, list.size());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+	}
+	/**
+	 * This below method tests Collection.rotate for list of alphanumeric string values
+	 * with a length of the list
+	 * 
+	 * The list also contains blank values and quotes
+	 * 
+	 * This will rotate the list in anti-clockwise direction
+	 * 
+	 * Since we are rotating for length of the string, it will make the list remain same.
+         * CHOICES USED: 1,2,3,5,10,12
+	 * */
+	
+	
+	@Test
+	void testRotateAlphaNumericWithBlanksAndQuotes() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		String blank_string = " ";
+		String quote_string = "\"";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		list.add(quote_string);
+		Collections.rotate(list, list.size());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+		assertEquals(quote_string, list.get(4));
+	}
+	
+	
+	/*
+	 * rotate by an a random number(not necessarily integer) and then rotate by the 
+	 * same number back for alphanumerics
+         * CHOICES USED: 1,2,9,10,12
+	 * **/
+	@Test
+	void testRotateAlphaNumericWithRandomDistance() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		String alphaNum2= randomAlphaNumeric(3);
+		String alphaNum3= randomAlphaNumeric(7);
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(alphaNum3);
+		Collections.rotate(list, (int)Math.random());
+		Collections.rotate(list, -1*(int)Math.random());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(alphaNum3, list.get(2));
+	}
+	
+	/*
+	 *  rotate by an a random number(not necessarily integer) and then rotate by the 
+	 *  same number back for alphanumerics with blanks
+         * CHOICES USED: 1,2,5,9,10,12
+	 * **/
+	@Test
+	void testRotateAlphaNumericWithBlanksWithRandomDistance() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		String alphaNum3= randomAlphaNumericWithBlank(7);
+		String blank_string = " ";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		Collections.rotate(list, (int)Math.random());
+		Collections.rotate(list, -1*(int)Math.random());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+	}
+	
+	/*
+	 * 
+	 * rotate by an a random number(not necessarily integer) and then rotate by the 
+	 * same number back for alphanumerics with blanks and quotes
+         * CHOICES USED: 1,2,3,5,9,10,12
+	 * **/
+	@Test
+	void testRotateAlphaNumericWithBlanksAndQuotesRandomDistance() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		String blank_string = " ";
+		String quote_string = "\"";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		list.add(quote_string);
+		Collections.rotate(list, (int)Math.random());
+		Collections.rotate(list, -1*(int)Math.random());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+		assertEquals(quote_string, list.get(4));
+	}
+
+	/*
+	 * 
+	 * rotate by an a random number(not necessarily integer) and then rotate by the 
+	 * same number back for alphanumerics with blanks and quotes
+         * CHOICES USED: 1,2,3,5,9,10,12
+	 * **/
+	@Test
+	void testRotateAlphaNumericWithBlanksAndQuotesRandomDistanceAutomated() {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < 1000; i++) {
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		String blank_string = " ";
+		String quote_string = "\"";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		list.add(quote_string);
+		Collections.rotate(list, (int)Math.random());
+		Collections.rotate(list, -1*(int)Math.random());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+		assertEquals(quote_string, list.get(4));
+		}
+	}
+
+	
+	/**
+	 * This below method tests Collection.rotate for list of alphanumeric string values
+	 * with a length of the list
+	 * 
+	 * The list also contains blank values and quotes
+	 * 
+	 * This will rotate the list in anti-clockwise direction
+	 * 
+	 * Since we are rotating for length of the string, it will make the list remain same.
+         * CHOICES USED: 1,2,3,5,10,12
+	 * */
+	
+	
+	@Test
+	void testRotateAlphaNumericWithBlanksAndQuotesAutomated() {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < 1000; i++) {
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		String alphaNum3= randomAlphaNumericWithBlankAndQuotes(7);
+		String blank_string = " ";
+		String quote_string = "\"";
+		list.add(alphaNum1);
+		list.add(alphaNum2);
+		list.add(blank_string);
+		list.add(alphaNum3);
+		list.add(quote_string);
+		Collections.rotate(list, list.size());
+		assertEquals(alphaNum1, list.get(0));
+		assertEquals(alphaNum2, list.get(1));
+		assertEquals(blank_string, list.get(2));
+		assertEquals(alphaNum3, list.get(3));
+		assertEquals(quote_string, list.get(4));
+	}
+		}
+
+
+
+
+}

@@ -1,0 +1,222 @@
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+class CollectionMinTest {
+	
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static final String BLANK_STRING = " ";
+	private static final String QUOTE_STRING = "\"";
+	/*
+	 * Helper Method to generate random alpha numeric string of a certain size
+	 * */
+	
+	public static String randomAlphaNumeric(int count) {
+	StringBuilder builder = new StringBuilder();
+	while (count-- != 0) {
+	int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+	builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+	}
+	return builder.toString();
+	}
+	public static String randomAlphaNumericWithBlank(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	
+	public static String randomAlphaNumericWithBlankAndQuotes(int count) {
+		StringBuilder builder = new StringBuilder();
+		String combinedString = ALPHA_NUMERIC_STRING.concat(BLANK_STRING).concat(QUOTE_STRING);
+		while (count-- != 0) {
+		int character = (int)(Math.random()*combinedString.length());
+		builder.append(combinedString.charAt(character));
+		}
+		return builder.toString();
+		}
+	/**
+	 * Test for:
+	 * Start with a set containing only the element min(long). Find the minimum. 
+	 * Add some other random alphanumerics and check the minimum again.
+         * CHOICES USED: 1,2,19,24
+	 * */
+	@Test
+	void testMinFromAlphaNumericList() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		list.add(alphaNum1);
+		//method under test
+		String min = Collections.min(list);
+		assertEquals(alphaNum1, min);
+		
+		String alphaNum2= randomAlphaNumeric(3);
+		list.add(alphaNum2);
+
+		//method under test
+		String min_actual = Collections.min(list);
+		
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+	}
+	/**
+	 * Test for:
+	 * Start with a set containing only the element min(long). Find the minimum. 
+	 * Add some other random alphanumerics with blanks and check the minimum again.
+         * CHOICES USED: 1,2,5,19,24
+	 * */
+	@Test
+	void testMinFromAlphaNumericWithBlanksList() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		list.add(alphaNum1);
+		//method under test
+		String min = Collections.min(list);
+		assertEquals(alphaNum1, min);
+		
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		list.add(alphaNum2);
+
+		//method under test
+		String min_actual = Collections.min(list);
+		
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+	}
+	/**
+	 * Test for:
+	 * Start with a set containing only the element min(long). Find the minimum. 
+	 * Add some other random alphanumerics with blanks and quotes and check the minimum again.
+         * CHOICES USED: 1,2,3,5,19,24
+	 * */
+	@Test
+	void testMinFromAlphaNumericWithBlanksAndQuotesList() {
+		List<String> list = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		list.add(alphaNum1);
+		//method under test
+		String min = Collections.min(list);
+		assertEquals(alphaNum1, min);
+		
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		list.add(alphaNum2);
+
+		//method under test
+		String min_actual = Collections.min(list);
+		
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+	}
+	
+	
+	/**
+	 * Test for:
+	 * Start with an array of alphanumerics. Find the minimum. 
+	 * Shuffle the original array and find the minimum again. 
+	 * Check if they are the same.
+         * CHOICES USED: 17,24
+	 */
+	@Test
+	void testMinFromAlphaNumericListAfterShuffle() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyoflist = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumeric(5);
+		String alphaNum2= randomAlphaNumeric(3);
+		list.add(alphaNum1);
+		copyoflist.add(alphaNum1);
+		list.add(alphaNum2);
+		copyoflist.add(alphaNum2);		
+		//method under test
+		String min_actual = Collections.min(list);
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+		
+		Collections.shuffle(copyoflist);
+		String min_actual_copy_list = Collections.min(copyoflist);		
+		
+		
+		assertEquals(min_expected, min_actual_copy_list);
+	}
+	
+	
+	/**
+	 * Test for:
+	 * Start with an array of alphanumerics with blanks. Find the minimum. 
+	 * Shuffle the original array and find the minimum again. 
+	 * Check if they are the same.
+         * CHOICES USED: 5,17,24
+	 */
+	@Test
+	void testMinFromAlphaNumericWithBlanksListAfterShuffle() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyoflist = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlank(5);
+		String alphaNum2= randomAlphaNumericWithBlank(3);
+		list.add(alphaNum1);
+		copyoflist.add(alphaNum1);
+		list.add(alphaNum2);
+		copyoflist.add(alphaNum2);		
+		//method under test
+		String min_actual = Collections.min(list);
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+		
+		Collections.shuffle(copyoflist);
+		String min_actual_copy_list = Collections.min(copyoflist);		
+		
+		
+		assertEquals(min_expected, min_actual_copy_list);
+	}
+	
+	
+	
+	/**
+	 * Test for:
+	 * Start with an array of alphanumerics with blanks and quotes. Find the minimum. 
+	 * Shuffle the original array and find the minimum again. 
+	 * Check if they are the same.
+         * CHOICES USED: 3,5,17,24
+	 */
+	@Test
+	void testMinFromAlphaNumericWithBlanksAndQuotesAfterShuffle() {
+		List<String> list = new ArrayList<String>();
+		List<String> copyoflist = new ArrayList<String>();
+		String alphaNum1= randomAlphaNumericWithBlankAndQuotes(5);
+		String alphaNum2= randomAlphaNumericWithBlankAndQuotes(3);
+		list.add(alphaNum1);
+		copyoflist.add(alphaNum1);
+		list.add(alphaNum2);
+		copyoflist.add(alphaNum2);		
+		//method under test
+		String min_actual = Collections.min(list);
+		//expected Minimum
+		String min_expected = alphaNum1.compareTo(alphaNum2) > 0 ? alphaNum2 : alphaNum1;
+		
+		assertEquals(min_expected, min_actual);
+		
+		Collections.shuffle(copyoflist);
+		String min_actual_copy_list = Collections.min(copyoflist);		
+		
+		
+		assertEquals(min_expected, min_actual_copy_list);
+	}
+	
+}
+
